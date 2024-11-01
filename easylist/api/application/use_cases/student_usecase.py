@@ -4,6 +4,7 @@ from typing import TYPE_CHECKING
 
 from application.dtos.student_dto import StudentCreateDTO, StudentReadDTO, StudentUpdateDTO
 from domain.entities.student_entity import StudentEntity
+from loguru import logger
 
 if TYPE_CHECKING:
     from domain.interfaces.intf_student_repo import IStudentRepository
@@ -18,6 +19,7 @@ class StudentUseCase:
     def create_student(self, student_data: StudentCreateDTO) -> StudentReadDTO:
         student_entity = StudentEntity(**student_data.model_dump())
         created_student = self._student_repository.create(student_entity)
+        logger.info(f"Student created with ID: {created_student.id}")
         return StudentReadDTO.model_validate(created_student)
 
     def get_student(self, student_id: int) -> StudentReadDTO | None:
@@ -26,7 +28,16 @@ class StudentUseCase:
 
     def update_student(self, student_id: int, student_data: StudentUpdateDTO) -> StudentReadDTO | None:
         updated_student = self._student_repository.update(student_id, student_data.model_dump(exclude_unset=True))
-        return StudentReadDTO.model_validate(updated_student) if updated_student else None
+        if updated_student:
+            logger.info(f"Student updated with ID: {updated_student.id}")
+            return StudentReadDTO.model_validate(updated_student)
+        logger.warning(f"Failed to update: Student with ID {student_id} not found")
+        return None
 
     def delete_student(self, student_id: int) -> bool:
-        return self._student_repository.delete(student_id)
+        deleted = self._student_repository.delete(student_id)
+        if deleted:
+            logger.info(f"Student deleted with ID: {student_id}")
+        else:
+            logger.warning(f"Deletion failed: Student with ID {student_id} not found")
+        return deleted
