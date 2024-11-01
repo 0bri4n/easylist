@@ -1,10 +1,11 @@
 from datetime import datetime
 from enum import Enum
 
-from database import Base
 from sqlalchemy import Column, DateTime
 from sqlalchemy import Enum as SQLAlchemyEnum
 from sqlalchemy import Integer, String
+
+from easylist.api.infrastructure.database import Base
 
 
 class Gender(str, Enum):
