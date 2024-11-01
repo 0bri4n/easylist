@@ -1,0 +1,13 @@
+{
+	"editor.formatOnSave": true,
+
+	"files.exclude": {
+		"**/*.egg-info": true,
+		"**/.ruff_cache": true,
+		"**/.venv": true
+	},
+
+	"[json][jsonc][javascript][typescript]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	}
+}
