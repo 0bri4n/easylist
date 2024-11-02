@@ -2,8 +2,8 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from domain.entities.student_entity import StudentEntity
-from domain.interfaces.intf_student_repo import IStudentRepository
+from api.domain.entities.student_entity import StudentEntity
+from api.domain.interfaces.intf_student_repo import IStudentRepository
 from loguru import logger
 from sqlalchemy.exc import IntegrityError, OperationalError, SQLAlchemyError
 

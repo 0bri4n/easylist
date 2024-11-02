@@ -1,23 +1,30 @@
-from application.dtos.student_dto import StudentCreateDTO
-from application.use_cases.student_usecase import StudentUseCase
-from domain.entities.student_entity import Gender
-from domain.repositories.student_repository import StudentRepository
-from infrastructure.database import SessionLocal
+from typing import Annotated
+
+from api.application.dtos.student_dto import StudentCreateDTO, StudentReadDTO
+from api.application.use_cases.student_usecase import StudentUseCase
+from api.domain.repositories.student_repository import StudentRepository
+from api.infrastructure.database import Session, get_db
+from fastapi import Depends, FastAPI, HTTPException
+
+app = FastAPI()
+
+
+def get_student_use_case(db: Annotated[Session, Depends(get_db)]) -> StudentUseCase:
+    return StudentUseCase(StudentRepository(db))
+
+
+@app.post("/students", response_model=StudentReadDTO, status_code=201)
+def create_student(
+    student_data: StudentCreateDTO,
+    student_use_case: Annotated[StudentUseCase, Depends(get_student_use_case)],
+) -> StudentReadDTO:
+    try:
+        return student_use_case.create_student(student_data)
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e)) from e
 
 
 def run_server() -> None:
-    student_repository = StudentRepository(SessionLocal())
-    student_use_case = StudentUseCase(student_repository)
-    student_data = StudentCreateDTO(
-        name="Brian Alegre",
-        age=20,
-        sex=Gender.MALE,
-        cedula="001-0000000-0",
-        email="brian.alegre@example.com",
-    )
-    created_student = student_use_case.create_student(student_data)
-    print(created_student)
+    import uvicorn
 
-
-if __name__ == "__main__":
-    run_server()
+    uvicorn.run(app=app, port=8000)

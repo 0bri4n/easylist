@@ -3,7 +3,7 @@ from __future__ import annotations
 from datetime import datetime  # noqa: TCH003
 from typing import Annotated
 
-from domain.entities.student_entity import Gender  # noqa: TCH002
+from api.domain.entities.student_entity import Gender  # noqa: TCH002
 from pydantic import BaseModel, ConfigDict, EmailStr, Field
 
 

@@ -2,8 +2,8 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from application.dtos.student_dto import StudentCreateDTO, StudentReadDTO, StudentUpdateDTO
-from domain.entities.student_entity import StudentEntity
+from api.application.dtos.student_dto import StudentCreateDTO, StudentReadDTO, StudentUpdateDTO
+from api.domain.entities.student_entity import StudentEntity
 from loguru import logger
 
 if TYPE_CHECKING:

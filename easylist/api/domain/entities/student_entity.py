@@ -1,8 +1,10 @@
 from datetime import datetime
 from enum import Enum
+from typing import ClassVar
 
-from sqlalchemy import Column, DateTime, Integer, String
+from sqlalchemy import Column, DateTime
 from sqlalchemy import Enum as SQLAlchemyEnum
+from sqlalchemy import Integer, String
 
 from easylist.api.infrastructure.database import Base
 
@@ -15,6 +17,7 @@ class Gender(str, Enum):
 
 class StudentEntity(Base):
     __tablename__ = "students"
+    __table_args__: ClassVar = {"extend_existing": True}
 
     id = Column(Integer, primary_key=True)
     name = Column(String(100), nullable=False, index=True)

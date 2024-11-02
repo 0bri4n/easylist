@@ -15,9 +15,5 @@ def create_tables() -> None:
         raise
 
 
-def initialize_database() -> None:
-    create_tables()
-
-
 if __name__ == "__main__":
-    initialize_database()
+    create_tables()
