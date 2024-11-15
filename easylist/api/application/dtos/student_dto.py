@@ -1,19 +1,35 @@
 from __future__ import annotations
 
 from datetime import datetime  # noqa: TCH003
-from typing import Annotated
+from typing import TYPE_CHECKING, Annotated
+from uuid import UUID  # noqa: TCH003
 
-from api.domain.entities.student_entity import Gender  # noqa: TCH002
-from pydantic import BaseModel, ConfigDict, EmailStr, Field
+from pydantic import BaseModel, ConfigDict, EmailStr, Field, StringConstraints
+
+from easylist.api.domain.entities.student_entity import Gender  # noqa: TCH001
+
+if TYPE_CHECKING:
+    from re import Pattern
+
+
+CEDULA_REGEX: Pattern[str] = r"^\d{3}-\d{7}-\d{1}$"
 
 
 class StudentBaseDTO(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
-    name: Annotated[str, Field(description="Student full name", examples=["Brian Alegre", "America Perdomo"])]
-    age: Annotated[int, Field(description="Student age", examples=[20])]
-    sex: Annotated[Gender | None, Field(description="Student's gender", examples=[Gender.MALE, Gender.FEMALE])]
-    cedula: Annotated[str, Field(description="Student's ID number", examples=["001-0000000-0"])]
+    name: Annotated[
+        str | None,
+        StringConstraints(min_length=2, max_length=30),
+        Field(description="Student full name", examples=["Brian Alegre", "America Perdomo"]),
+    ]
+    age: Annotated[int, Field(ge=8, le=100, description="Student age", examples=[20])]
+    sex: Annotated[Gender, Field(description="Student's gender", examples=[Gender.MALE, Gender.FEMALE])]
+    cedula: Annotated[
+        str | None,
+        StringConstraints(pattern=CEDULA_REGEX),
+        Field(description="Student's ID number", examples=["001-0000000-0"]),
+    ] = None
 
 
 class StudentCreateDTO(StudentBaseDTO):
@@ -21,7 +37,7 @@ class StudentCreateDTO(StudentBaseDTO):
 
 
 class StudentReadDTO(StudentBaseDTO):
-    id: Annotated[int, Field(description="Unique identifier for student", examples=[1, 2])]
+    id: Annotated[UUID, Field(description="Unique identifier for student", examples=["1", "2", "3"])]
     created_at: Annotated[
         datetime,
         Field(
@@ -38,14 +54,20 @@ class StudentUpdateDTO(BaseModel):
 
     name: Annotated[
         str | None,
+        StringConstraints(min_length=2, max_length=30),
         Field(description="Student name to update", examples=["Brian Triste", "Europa Perdomo"]),
     ] = None
-    age: Annotated[int | None, Field(description="Age to update", examples=[21])] = None
+    age: Annotated[int | None, Field(ge=8, le=100, description="Age to update", examples=[21])] = None
     sex: Annotated[Gender | None, Field(description="Gender to update", examples=[Gender.MALE, Gender.FEMALE])] = None
-    cedula: Annotated[str | None, Field(description="Updated ID number", examples=["002-0000000-0"])] = None
-    email: Annotated[EmailStr | None, Field(description="Updated email address", examples=["updated@example.com"])] = (
-        None
-    )
+    cedula: Annotated[
+        str | None,
+        StringConstraints(pattern=CEDULA_REGEX),
+        Field(description="Updated ID number", examples=["002-0000000-0"]),
+    ] = None
+    email: Annotated[
+        EmailStr | None,
+        Field(description="Updated email address", examples=["updated@example.com"]),
+    ] = None
 
 
 StudentCreateDTO.model_rebuild()

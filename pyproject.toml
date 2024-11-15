@@ -4,22 +4,19 @@ version = "0.1.0"
 description = ""
 requires-python = ">=3.9"
 dependencies = [
-    "aiohttp>=3.10.10",
+    "argon2-cffi>=23.1.0",
     "fastapi>=0.115.4",
+    "flet>=0.24.1",
     "loguru>=0.7.2",
     "pydantic[email]>=2.9.2",
-    "pyqt5==5.15.11",
+    "scalar-fastapi>=1.0.3",
     "sqlalchemy>=2.0.36",
+    "uuid>=1.30",
     "uvicorn>=0.32.0",
 ]
 
 [tool.uv]
 dev-dependencies = ["ruff<1.0.0,>=0.2.2"]
-package = true
-
-[tool.pyright]
-reportInvalidTypeForm = false
-reportMissingTypeDefinition = false
 
 [tool.ruff]
 exclude = ["assets"]
@@ -41,13 +38,28 @@ ignore = [
     "D102",
     "D105",
 ]
-
 fixable = ["ALL"]
-dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
 
 [tool.ruff.format]
 quote-style = "double"
 indent-style = "space"
 
-[tool.setuptools]
-packages = ["easylist", "assets"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["easylist/", "assets/"]
+
+
+[tool.codeflash]
+# All paths are relative to this pyproject.toml's directory.
+module-root = "easylist"
+tests-root = "tests"
+test-framework = "pytest"
+ignore-paths = []
+formatter-cmds = ["ruff check --exit-zero --fix $file", "ruff format $file"]
+
+[project.scripts]
+run = "easylist.__main__:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

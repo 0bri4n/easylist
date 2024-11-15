@@ -1,7 +1,6 @@
 from loguru import logger
 from sqlalchemy.exc import SQLAlchemyError
 
-import easylist.api.domain.entities  # noqa: F401 register entities in metadata
 from easylist.api.infrastructure.database import Base, engine
 
 

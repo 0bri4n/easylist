@@ -1,10 +1,11 @@
+import uuid
 from datetime import datetime
 from enum import Enum
 from typing import ClassVar
 
-from sqlalchemy import Column, DateTime
+from sqlalchemy import Column, DateTime, Integer, String
 from sqlalchemy import Enum as SQLAlchemyEnum
-from sqlalchemy import Integer, String
+from sqlalchemy.dialects.postgresql import UUID
 
 from easylist.api.infrastructure.database import Base
 
@@ -19,7 +20,7 @@ class StudentEntity(Base):
     __tablename__ = "students"
     __table_args__: ClassVar = {"extend_existing": True}
 
-    id = Column(Integer, primary_key=True)
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, unique=True, nullable=False)
     name = Column(String(100), nullable=False, index=True)
     age = Column(Integer, nullable=False)
     sex = Column(SQLAlchemyEnum(Gender), nullable=False)

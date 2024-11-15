@@ -1,13 +1,21 @@
 {
 	"editor.formatOnSave": true,
+	"editor.defaultFormatter": "charliermarsh.ruff",
+
+	"[json][jsonc][jsonl]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	},
+	"[dockercompose][dockerfile]": {
+		"editor.defaultFormatter": "ms-azuretools.vscode-docker"
+	},
+	"[toml]": {
+		"editor.defaultFormatter": "tamasfe.even-better-toml"
+	},
 
 	"files.exclude": {
 		"**/*.egg-info": true,
 		"**/.ruff_cache": true,
+		"**/__pycache__": true,
 		"**/.venv": true
-	},
-
-	"[json][jsonc][javascript][typescript]": {
-		"editor.defaultFormatter": "biomejs.biome"
 	}
 }

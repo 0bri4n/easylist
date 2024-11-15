@@ -1,17 +1,26 @@
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
+from uuid import UUID
 
-from api.domain.entities.student_entity import StudentEntity
-from api.domain.interfaces.intf_student_repo import IStudentRepository
 from loguru import logger
-from sqlalchemy.exc import IntegrityError, OperationalError, SQLAlchemyError
+from sqlalchemy.exc import IntegrityError, SQLAlchemyError
+
+from easylist.api.domain.entities.student_entity import StudentEntity
+from easylist.api.domain.exceptions import (
+    DatabaseError,
+    IntegrityConstraintViolationError,
+    InvalidUUIDError,
+    StudentNotFoundError,
+)
 
 if TYPE_CHECKING:
     from sqlalchemy.orm import Session
 
+StudentID = UUID
 
-class StudentRepository(IStudentRepository):
+
+class StudentRepository:
     __slots__ = ("_session",)
 
     def __init__(self, session: Session) -> None:
@@ -22,63 +31,73 @@ class StudentRepository(IStudentRepository):
             self._session.add(student)
             self._session.commit()
             self._session.refresh(student)
-            logger.info(f"Student created with ID: {student.id}")
         except IntegrityError as e:
+            logger.error(f"Integrity error: {e}")
             self._session.rollback()
-            logger.error(f"Integrity error: Duplicate entry detected for student data: {student}")
-            msg = "Student with the provided unique attributes already exists."
-            raise ValueError(msg) from e
-        except (SQLAlchemyError, OperationalError) as e:
+            msg = "Duplicate entry for a unique field."
+            raise IntegrityConstraintViolationError(msg) from e
+        except SQLAlchemyError as e:
+            logger.error("Database error during student creation.")
             self._session.rollback()
-            logger.exception(f"Error creating student with data: {student}")
-            msg = f"Failed to create student: {e}"
-            raise RuntimeError(msg) from e
+            msg = "An error occurred while creating the student."
+            raise DatabaseError(msg) from e
         return student
 
-    def get_by_id(self, student_id: int) -> StudentEntity | None:
-        return self._session.query(StudentEntity).filter_by(id=student_id).first()
-
-    def list_all(self) -> list[StudentEntity]:
-        students = self._session.query(StudentEntity).all()
-        if not students:
-            logger.warning("No students found in the database")
-        return students
-
-    def update(self, student_id: int, student_data: dict) -> StudentEntity | None:
-        student = self.get_by_id(student_id)
-        if student:
-            try:
-                for key, value in student_data.items():
-                    setattr(student, key, value)
-                self._session.commit()
-                self._session.refresh(student)
-                logger.info(f"Student updated with ID: {student.id}")
-            except IntegrityError as e:
-                self._session.rollback()
-                logger.error(f"Integrity error: Duplicate entry detected for student data: {student_data}")
-                msg = "Update failed: Duplicate unique attributes found."
-                raise ValueError(msg) from e
-            except (SQLAlchemyError, OperationalError) as e:
-                self._session.rollback()
-                logger.exception(f"Error updating student with ID {student_id}: {student_data}")
-                msg = f"Failed to update student: {e}"
-                raise RuntimeError(msg) from e
+    def get_by_id(self, student_id: str) -> StudentEntity | None:
+        try:
+            uuid_id = self._validate_uuid(student_id)
+            student = self._session.get(StudentEntity, uuid_id)
+            if not student:
+                msg = f"Student with ID {student_id} does not exist."
+                raise StudentNotFoundError(msg)
+        except InvalidUUIDError as e:
+            logger.warning(f"Invalid UUID format: {student_id}")
+            raise e from e
+        except SQLAlchemyError as e:
+            logger.error(f"Database error during student retrieval: {e}")
+            self._session.rollback()
+            msg = "An error occurred while retrieving the student."
+            raise DatabaseError(msg) from e
+        else:
             return student
-        logger.warning(f"Student with ID {student_id} not found for update")
-        return None
 
-    def delete(self, student_id: int) -> bool:
+    def update(self, student_id: str, updated_data: dict) -> StudentEntity:
         student = self.get_by_id(student_id)
-        if student:
-            try:
-                self._session.delete(student)
-                self._session.commit()
-                logger.info(f"Student deleted with ID: {student_id}")
-            except (SQLAlchemyError, OperationalError) as e:
-                self._session.rollback()
-                logger.exception(f"Error deleting student with ID: {student_id}")
-                msg = f"Failed to delete student: {e}"
-                raise RuntimeError(msg) from e
+        if not student:
+            msg = f"Student with ID {student_id} does not exist."
+            raise StudentNotFoundError(msg)
+        try:
+            for key, value in updated_data.items():
+                setattr(student, key, value)
+            self._session.commit()
+            self._session.refresh(student)
+        except SQLAlchemyError as e:
+            logger.error("Database error during student update.")
+            self._session.rollback()
+            msg = "An error occurred while updating the student."
+            raise DatabaseError(msg) from e
+        return student
+
+    def delete(self, student_id: str) -> bool:
+        student = self.get_by_id(student_id)
+        if not student:
+            msg = f"Student with ID {student_id} does not exist."
+            raise StudentNotFoundError(msg)
+        try:
+            self._session.delete(student)
+            self._session.commit()
+        except SQLAlchemyError as e:
+            logger.error("Database error during student deletion.")
+            self._session.rollback()
+            msg = "An error occurred while deleting the student."
+            raise DatabaseError(msg) from e
+        else:
             return True
-        logger.warning(f"Student with ID {student_id} not found for deletion")
-        return False
+
+    @staticmethod
+    def _validate_uuid(student_id: str) -> StudentID:
+        try:
+            return UUID(student_id)
+        except ValueError as e:
+            msg = f"The provided ID {student_id} is not a valid UUID."
+            raise InvalidUUIDError(msg) from e

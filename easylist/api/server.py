@@ -1,30 +1,27 @@
-from typing import Annotated
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import HTMLResponse
+from scalar_fastapi import get_scalar_api_reference
 
-from api.application.dtos.student_dto import StudentCreateDTO, StudentReadDTO
-from api.application.use_cases.student_usecase import StudentUseCase
-from api.domain.repositories.student_repository import StudentRepository
-from api.infrastructure.database import Session, get_db
-from fastapi import Depends, FastAPI, HTTPException
+from .infrastructure.rest.controllers.students import router_students
 
-app = FastAPI()
+app = FastAPI(docs_url=None)
 
-
-def get_student_use_case(db: Annotated[Session, Depends(get_db)]) -> StudentUseCase:
-    return StudentUseCase(StudentRepository(db))
-
-
-@app.post("/students", response_model=StudentReadDTO, status_code=201)
-def create_student(
-    student_data: StudentCreateDTO,
-    student_use_case: Annotated[StudentUseCase, Depends(get_student_use_case)],
-) -> StudentReadDTO:
-    try:
-        return student_use_case.create_student(student_data)
-    except Exception as e:
-        raise HTTPException(status_code=400, detail=str(e)) from e
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
-def run_server() -> None:
-    import uvicorn
+@app.get("/docs", include_in_schema=False)
+async def docs_scalar_html() -> HTMLResponse:
+    return get_scalar_api_reference(
+        openapi_url=app.openapi_url,
+        title=app.title,
+    )
 
-    uvicorn.run(app=app, port=8000)
+
+app.include_router(router_students, prefix="/students")
