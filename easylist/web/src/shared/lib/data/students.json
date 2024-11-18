@@ -1,0 +1,170 @@
+[
+	{
+		"id": 1,
+		"name": "John Doe",
+		"email": "john@doe.com",
+		"age": 25,
+		"cedula": "001-1234567-8",
+		"sex": "M"
+	},
+	{
+		"id": 2,
+		"name": "Jane Smith",
+		"email": "jane@smith.com",
+		"age": 30,
+		"cedula": "002-1234567-8",
+		"sex": "F"
+	},
+	{
+		"id": 3,
+		"name": "Alice Johnson",
+		"email": "alice@johnson.com",
+		"age": 28,
+		"cedula": "003-1234567-8",
+		"sex": "F"
+	},
+	{
+		"id": 4,
+		"name": "Bob Brown",
+		"email": "bob@brown.com",
+		"age": 35,
+		"cedula": "004-1234567-8",
+		"sex": "M"
+	},
+	{
+		"id": 5,
+		"name": "Charlie Davis",
+		"email": "charlie@davis.com",
+		"age": 22,
+		"cedula": "005-1234567-8",
+		"sex": "M"
+	},
+	{
+		"id": 6,
+		"name": "Diana Evans",
+		"email": "diana@evans.com",
+		"age": 27,
+		"cedula": "006-1234567-8",
+		"sex": "F"
+	},
+	{
+		"id": 7,
+		"name": "Ethan Foster",
+		"email": "ethan@foster.com",
+		"age": 32,
+		"cedula": "007-1234567-8",
+		"sex": "M"
+	},
+	{
+		"id": 8,
+		"name": "Fiona Green",
+		"email": "fiona@green.com",
+		"age": 29,
+		"cedula": "008-1234567-8",
+		"sex": "F"
+	},
+	{
+		"id": 9,
+		"name": "George Harris",
+		"email": "george@harris.com",
+		"age": 31,
+		"cedula": "009-1234567-8",
+		"sex": "M"
+	},
+	{
+		"id": 10,
+		"name": "Hannah Irving",
+		"email": "hannah@irving.com",
+		"age": 26,
+		"cedula": "010-1234567-8",
+		"sex": "F"
+	},
+	{
+		"id": 11,
+		"name": "Ian Jackson",
+		"email": "ian@jackson.com",
+		"age": 33,
+		"cedula": "011-1234567-8",
+		"sex": "M"
+	},
+	{
+		"id": 12,
+		"name": "Julia King",
+		"email": "julia@king.com",
+		"age": 24,
+		"cedula": "012-1234567-8",
+		"sex": "F"
+	},
+	{
+		"id": 13,
+		"name": "Kevin Lewis",
+		"email": "kevin@lewis.com",
+		"age": 36,
+		"cedula": "013-1234567-8",
+		"sex": "M"
+	},
+	{
+		"id": 14,
+		"name": "Laura Martinez",
+		"email": "laura@martinez.com",
+		"age": 23,
+		"cedula": "014-1234567-8",
+		"sex": "F"
+	},
+	{
+		"id": 15,
+		"name": "Michael Nelson",
+		"email": "michael@nelson.com",
+		"age": 34,
+		"cedula": "015-1234567-8",
+		"sex": "M"
+	},
+	{
+		"id": 16,
+		"name": "Nina Owens",
+		"email": "nina@owens.com",
+		"age": 27,
+		"cedula": "016-1234567-8",
+		"sex": "F"
+	},
+	{
+		"id": 17,
+		"name": "Oscar Perez",
+		"email": "oscar@perez.com",
+		"age": 28,
+		"cedula": "017-1234567-8",
+		"sex": "M"
+	},
+	{
+		"id": 18,
+		"name": "Paula Quinn",
+		"email": "paula@quinn.com",
+		"age": 25,
+		"cedula": "018-1234567-8",
+		"sex": "F"
+	},
+	{
+		"id": 19,
+		"name": "Quincy Roberts",
+		"email": "quincy@roberts.com",
+		"age": 31,
+		"cedula": "019-1234567-8",
+		"sex": "M"
+	},
+	{
+		"id": 20,
+		"name": "Rachel Scott",
+		"email": "rachel@scott.com",
+		"age": 29,
+		"cedula": "020-1234567-8",
+		"sex": "F"
+	},
+	{
+		"id": 21,
+		"name": "Steve Turner",
+		"email": "steve@turner.com",
+		"age": 32,
+		"cedula": "021-1234567-8",
+		"sex": "M"
+	}
+]

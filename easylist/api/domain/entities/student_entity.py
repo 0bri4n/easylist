@@ -3,8 +3,9 @@ from datetime import datetime
 from enum import Enum
 from typing import ClassVar
 
-from sqlalchemy import Column, DateTime, Integer, String
+from sqlalchemy import Column, DateTime
 from sqlalchemy import Enum as SQLAlchemyEnum
+from sqlalchemy import Integer, String
 from sqlalchemy.dialects.postgresql import UUID
 
 from easylist.api.infrastructure.database import Base

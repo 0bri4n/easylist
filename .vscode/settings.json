@@ -1,21 +1,27 @@
 {
-	"editor.formatOnSave": true,
-	"editor.defaultFormatter": "charliermarsh.ruff",
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "charliermarsh.ruff",
 
-	"[json][jsonc][jsonl]": {
-		"editor.defaultFormatter": "biomejs.biome"
-	},
-	"[dockercompose][dockerfile]": {
-		"editor.defaultFormatter": "ms-azuretools.vscode-docker"
-	},
-	"[toml]": {
-		"editor.defaultFormatter": "tamasfe.even-better-toml"
-	},
+  "[json][jsonc][jsonl][html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascriptreact][typescriptreact][typescript][javascript]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[dockercompose][dockerfile]": {
+    "editor.defaultFormatter": "ms-azuretools.vscode-docker"
+  },
+  "[toml]": {
+    "editor.defaultFormatter": "tamasfe.even-better-toml"
+  },
 
-	"files.exclude": {
-		"**/*.egg-info": true,
-		"**/.ruff_cache": true,
-		"**/__pycache__": true,
-		"**/.venv": true
-	}
+  "files.exclude": {
+    "**/*.egg-info": true,
+    "**/.ruff_cache": true,
+    "**/__pycache__": true,
+    "**/.venv": true
+  },
+  "[tailwindcss]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
 }

@@ -15,9 +15,6 @@ class IStudentRepository(ABC):
     def get_by_id(self, student_id: str) -> StudentEntity | None: ...
 
     @abstractmethod
-    def list_all(self) -> list[StudentEntity]: ...
-
-    @abstractmethod
     def update(self, student_id: str, student_data: dict) -> StudentEntity | None: ...
 
     @abstractmethod
