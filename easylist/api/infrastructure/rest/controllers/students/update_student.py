@@ -4,12 +4,13 @@ from fastapi import APIRouter, Depends, HTTPException, status
 
 from easylist.api.application.dtos.student_dto import StudentReadDTO, StudentUpdateDTO
 from easylist.api.application.use_cases.student_usecase import StudentUseCase
-from easylist.api.infrastructure.rest.controllers.dependencies import get_student_use_case
+
+from .dependencies import get_student_use_case
 
 router = APIRouter()
 
 
-@router.put("/{student_id}", response_model=StudentReadDTO)
+@router.put("/{student_id}", response_model=StudentReadDTO, status_code=status.HTTP_200_OK)
 def update_student(
     student_id: str,
     student_data: StudentUpdateDTO,

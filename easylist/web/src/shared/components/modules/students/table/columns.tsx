@@ -3,6 +3,9 @@
 import type { ColumnDef } from "@tanstack/react-table";
 import { Checkbox } from "#/shared/components/ui/checkbox";
 import type { Student } from "#/shared/lib/data/schema-student";
+import { Badge } from "#/shared/components/ui/badge";
+import { DataTableColumnHeader } from "./data-table-header";
+import { DataTableRowActions } from "./data-table-row-actions";
 
 export const columns: ColumnDef<Student>[] = [
 	{
@@ -30,28 +33,40 @@ export const columns: ColumnDef<Student>[] = [
 		enableHiding: false,
 	},
 	{
+		accessorKey: "id",
+		header: "ID",
+		cell: ({ row }) => <span>{row.getValue("id")}</span>,
+		enableHiding: false,
+	},
+	{
 		accessorKey: "name",
-		header: "Nombre",
-		cell: ({ row }) => <span>{row.original.name}</span>,
+		header: ({ column }) => (
+			<DataTableColumnHeader column={column} title="Nombre" />
+		),
+		cell: ({ row }) => <span>{row.getValue("name")}</span>,
 	},
 	{
 		accessorKey: "email",
 		header: "Correo",
-		cell: ({ row }) => <span>{row.original.email}</span>,
+		cell: ({ row }) => <span>{row.getValue("email")}</span>,
 	},
 	{
 		accessorKey: "age",
-		header: "Cedula",
-		cell: ({ row }) => <span>{row.original.age}</span>,
+		header: "Edad",
+		cell: ({ row }) => <span>{row.getValue("age")}</span>,
 	},
 	{
 		accessorKey: "cedula",
 		header: "Cedula",
-		cell: ({ row }) => <span>{row.original.cedula}</span>,
+		cell: ({ row }) => <span>{row.getValue("cedula")}</span>,
 	},
 	{
 		accessorKey: "sex",
-		header: "Genero",
-		cell: ({ row }) => <span>{row.original.sex}</span>,
+		header: "Género",
+		cell: ({ row }) => <Badge variant="outline">{row.getValue("sex")}</Badge>,
+	},
+	{
+		id: "actions",
+		cell: ({ row }) => <DataTableRowActions row={row} />,
 	},
 ];

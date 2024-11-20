@@ -3,7 +3,8 @@ from typing import Annotated
 from fastapi import APIRouter, Depends, HTTPException, status
 
 from easylist.api.application.use_cases.student_usecase import StudentUseCase
-from easylist.api.infrastructure.rest.controllers.dependencies import get_student_use_case
+
+from .dependencies import get_student_use_case
 
 router = APIRouter()
 

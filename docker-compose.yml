@@ -1,0 +1,22 @@
+services:
+  backend:
+    build:
+      context: .
+      target: backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./easylist/api:/app
+    environment:
+      APP_PORT: 8000
+
+  frontend:
+    build:
+      context: .
+      target: frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./easylist/web:/web
+    environment:
+      WEB_PORT: 3000

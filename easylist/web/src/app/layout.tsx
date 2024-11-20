@@ -11,7 +11,7 @@ const bricolage = Bricolage_Grotesque({
 
 export const metadata: Metadata = {
 	title: "Easylist",
-	description: "Easylist - manage student attendance with ease.",
+	description: "Easylist - maneja tus estudiantes de una manera sencilla.",
 };
 
 export default function RootLayout({

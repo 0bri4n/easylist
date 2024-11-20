@@ -11,7 +11,7 @@ import {
 } from "#/shared/components/ui/sidebar";
 import { CourseSwitcher } from "./course-switch";
 
-const COURSES = [
+const COURSES_DATA = [
 	{ name: "Programacion", logo: Command, members: "25 estudiantes" },
 	{ name: "Matematicas", logo: Command, members: "25 estudiantes" },
 ];
@@ -23,7 +23,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 				<SidebarMenu>
 					<SidebarMenuItem>
 						<SidebarMenuButton size="lg" asChild>
-							<CourseSwitcher courses={COURSES} />
+							<CourseSwitcher courses={COURSES_DATA} />
 						</SidebarMenuButton>
 					</SidebarMenuItem>
 				</SidebarMenu>

@@ -1,0 +1,15 @@
+El proyecto no estara ni el 50% terminado, al final le faltan muchos manejos de errores.
+Tambien cosas como hash las contraseñas, bueno algo tan basico por los errores que me ha dado
+Y tambien por el tiempo que tengo lo estoy excluyendo pero es algo esencial.
+
+Tambien features en la pagina web, a estos le faltan mucho pero por el tiempo y las clases
+no he podido terminar mucho el proyecto, he dado lo mejor de mi espero que lo valore,
+gracias por todo, el stack usado ha sido:
+
+backend: sqlalchemy + fastapi + sqlite3
+frontend: nextjs + shadcnui + tailwind
+
+capaz usar alguna memoria en cache me hubiera facilitado cosas tambien, aunque eso 
+mas que todo en el frontend, en fin eso es todo gracias por leer.
+
+Creado por: Brian, America & Omar. 

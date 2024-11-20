@@ -1,7 +1,4 @@
-from sqlalchemy import MetaData
-
 from .student_entity import StudentEntity
+from .teacher_entity import TeacherEntity
 
-Metadata = MetaData()
-
-__all__ = ("StudentEntity",)
+__all__ = ("StudentEntity", "TeacherEntity")

@@ -13,6 +13,8 @@ from easylist.api.domain.exceptions import (
     InvalidUUIDError,
     StudentNotFoundError,
 )
+from easylist.api.domain.interfaces.intf_student_repo import IStudentRepository
+from easylist.api.utils import validate_uuid
 
 if TYPE_CHECKING:
     from sqlalchemy.orm import Session
@@ -20,7 +22,7 @@ if TYPE_CHECKING:
 StudentID = UUID
 
 
-class StudentRepository:
+class StudentRepository(IStudentRepository):
     __slots__ = ("_session",)
 
     def __init__(self, session: Session) -> None:
@@ -45,7 +47,7 @@ class StudentRepository:
 
     def get_by_id(self, student_id: str) -> StudentEntity | None:
         try:
-            uuid_id = self._validate_uuid(student_id)
+            uuid_id = validate_uuid(student_id)
             student = self._session.get(StudentEntity, uuid_id)
             if not student:
                 msg = f"Student with ID {student_id} does not exist."
@@ -93,11 +95,4 @@ class StudentRepository:
             raise DatabaseError(msg) from e
         else:
             return True
-
-    @staticmethod
-    def _validate_uuid(student_id: str) -> StudentID:
-        try:
-            return UUID(student_id)
-        except ValueError as e:
-            msg = f"The provided ID {student_id} is not a valid UUID."
-            raise InvalidUUIDError(msg) from e
+            return True

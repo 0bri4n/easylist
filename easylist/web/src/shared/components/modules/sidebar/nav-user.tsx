@@ -1,4 +1,5 @@
 "use client";
+
 import { Bell, ChevronsUpDown, LogOut, SlidersHorizontal } from "lucide-react";
 
 import {
@@ -74,12 +75,16 @@ export function NavUser({ user }: { user: UserProps }) {
 						<DropdownMenuSeparator />
 						<DropdownMenuGroup>
 							<DropdownMenuItem>
-								<SlidersHorizontal />
-								Configuracion
+								<a href="/s/configuracion" className="flex items-center">
+									<SlidersHorizontal className="size-4 mr-2" />
+									<span>Configuracion</span>
+								</a>
 							</DropdownMenuItem>
 							<DropdownMenuItem>
-								<Bell />
-								Notificaciones
+								<a href="/s/notificaciones" className="flex items-center">
+									<Bell className="size-4 mr-2" />
+									<span>Notificaciones</span>
+								</a>
 							</DropdownMenuItem>
 						</DropdownMenuGroup>
 						<DropdownMenuSeparator />

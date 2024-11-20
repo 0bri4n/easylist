@@ -50,10 +50,7 @@ export const DATA_NAVBAR = {
 			icon: TableOfContents,
 		},
 	],
-	secundarios: [
-		{ title: "Soporte", url: "#", icon: LifeBuoy },
-		{ title: "Feedback", url: "#", icon: Send },
-	],
+	secundarios: [{ title: "Soporte", url: "#", icon: LifeBuoy }],
 };
 
 export const NavSidebar = () => {

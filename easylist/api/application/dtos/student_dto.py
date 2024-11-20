@@ -37,7 +37,7 @@ class StudentCreateDTO(StudentBaseDTO):
 
 
 class StudentReadDTO(StudentBaseDTO):
-    id: Annotated[UUID, Field(description="Unique identifier for student", examples=["1", "2", "3"])]
+    id: Annotated[UUID, Field(description="Unique identifier for student")]
     created_at: Annotated[
         datetime,
         Field(
