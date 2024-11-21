@@ -1,0 +1,35 @@
+name: Format Code with Ruff in easylist/api
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  format-code:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Install Python and Pip
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+
+    - name: Install Ruff
+      run: pip install ruff
+
+    - name: Run Ruff to format easylist/api
+      working-directory: ./easylist/api
+      run: ruff check . --fix
+
+    - name: Commit and push changes
+      run: |
+        git config --global user.name 'github-actions[bot]'
+        git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+        git add .
+        git commit -m "chore: format easylist/api using Ruff"
+        git push
+      if: success()
