@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from datetime import datetime  # noqa: TCH003
+from datetime import datetime
 from typing import Annotated
 from uuid import UUID  # noqa: TCH003
 
