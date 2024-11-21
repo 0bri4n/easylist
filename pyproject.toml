@@ -48,6 +48,7 @@ packages = ["easylist/", "assets/"]
 
 [project.scripts]
 api = "easylist.__main__:main"
+seed = "scripts.seed:create_tables"
 
 [build-system]
 requires = ["hatchling"]
