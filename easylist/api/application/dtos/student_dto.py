@@ -7,7 +7,7 @@ from uuid import UUID
 
 from pydantic import BaseModel, ConfigDict, EmailStr, Field, StringConstraints
 
-from easylist.api.domain.entities.student_entity import Gender  # noqa: TCH001
+from easylist.api.domain.entities.student_entity import Gender
 
 if TYPE_CHECKING:
     from re import Pattern
