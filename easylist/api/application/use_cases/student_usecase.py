@@ -42,3 +42,7 @@ class StudentUseCase:
         else:
             logger.warning(f"Deletion failed: Student with ID {student_id} not found")
         return deleted
+
+    def list_students(self) -> list[StudentReadDTO]:
+        students = self._student_repository.list_()
+        return [StudentReadDTO.model_validate(student) for student in students]

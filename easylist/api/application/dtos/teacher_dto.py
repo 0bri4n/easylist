@@ -1,8 +1,9 @@
 from __future__ import annotations
 
+import uuid
 from datetime import datetime  # noqa: TCH003
-from typing import Annotated
-from uuid import UUID  # noqa: TCH003
+from typing import Annotated, Self
+from uuid import UUID
 
 from pydantic import BaseModel, ConfigDict, EmailStr, Field, SecretStr, StringConstraints
 
@@ -30,7 +31,7 @@ class TeacherCreateDTO(TeacherBaseDTO):
 
 
 class TeacherReadDTO(TeacherBaseDTO):
-    id: Annotated[UUID, Field(description="Unique identifier for teacher")]
+    id: Annotated[UUID, Field(default=uuid.uuid4, description="Teacher unique identifier")]
     created_at: Annotated[
         datetime,
         Field(
@@ -40,6 +41,12 @@ class TeacherReadDTO(TeacherBaseDTO):
             default_factory=datetime.now,
         ),
     ]
+
+    @classmethod
+    def model_validate(cls, obj: dict) -> Self:
+        if isinstance(obj, dict):
+            obj["id"] = str(UUID(obj["id"]))
+        return super().model_validate(obj)
 
 
 class TeacherUpdateDTO(BaseModel):

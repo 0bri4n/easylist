@@ -64,15 +64,15 @@ export default function AddStudent() {
 
 	const onSubmit = async (values: FormValues) => {
 		/** WIP: Simulamos el timeout de una peticion */
-		await new Promise((resolve) => setTimeout(resolve, 2000))
-		
+		await new Promise((resolve) => setTimeout(resolve, 2000));
+
 		toast({
 			title: "Estudiante creado con éxito",
 			description: `El estudiante ${values.name} ha sido creado correctamente`,
 		});
 
 		setOpen(false);
-		form.reset()
+		form.reset();
 	};
 
 	return (

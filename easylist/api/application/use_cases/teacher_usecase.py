@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
+import bcrypt
 from loguru import logger
 
 from easylist.api.application.dtos.teacher_dto import TeacherCreateDTO, TeacherReadDTO, TeacherUpdateDTO
@@ -18,7 +19,9 @@ class TeacherUseCase:
         self._teacher_repository = teacher_repository
 
     def create_teacher(self, teacher_data: TeacherCreateDTO) -> TeacherReadDTO:
-        teacher_data.password = teacher_data.password.get_secret_value()
+        teacher_password = teacher_data.password.get_secret_value()
+        hashed_password = bcrypt.hashpw(teacher_password.encode("utf-8"), bcrypt.gensalt())
+        teacher_data.password = hashed_password.decode("utf-8")
 
         teacher_entity = TeacherEntity(**teacher_data.model_dump())
         created_teacher = self._teacher_repository.create(teacher_entity)
@@ -31,7 +34,9 @@ class TeacherUseCase:
 
     def update_teacher(self, teacher_id: str, teacher_data: TeacherUpdateDTO) -> TeacherReadDTO | None:
         if teacher_data.password:
-            teacher_data.password = teacher_data.password.get_secret_value()
+            teacher_password = teacher_data.password.get_secret_value()
+            hashed_password = bcrypt.hashpw(teacher_password.encode("utf-8"), bcrypt.gensalt())
+            teacher_data.password = hashed_password.decode("utf-8")
 
         updated_teacher = self._teacher_repository.update(
             teacher_id,
@@ -39,7 +44,7 @@ class TeacherUseCase:
         )
         if updated_teacher:
             logger.info(f"Teacher updated with ID: {updated_teacher.id}")
-            return TeacherReadDTO.from_orm(updated_teacher)
+            return TeacherReadDTO.model_validate(updated_teacher)
 
         logger.warning(f"Failed to update: Teacher with ID {teacher_id} not found")
         return None

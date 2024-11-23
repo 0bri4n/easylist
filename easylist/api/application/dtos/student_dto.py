@@ -1,8 +1,9 @@
 from __future__ import annotations
 
+import uuid
 from datetime import datetime  # noqa: TCH003
 from typing import TYPE_CHECKING, Annotated
-from uuid import UUID  # noqa: TCH003
+from uuid import UUID
 
 from pydantic import BaseModel, ConfigDict, EmailStr, Field, StringConstraints
 
@@ -37,7 +38,7 @@ class StudentCreateDTO(StudentBaseDTO):
 
 
 class StudentReadDTO(StudentBaseDTO):
-    id: Annotated[UUID, Field(description="Unique identifier for student")]
+    id: Annotated[UUID, Field(default=uuid.uuid4, description="Student unique identifier")]
     created_at: Annotated[
         datetime,
         Field(

@@ -95,4 +95,13 @@ class StudentRepository(IStudentRepository):
             raise DatabaseError(msg) from e
         else:
             return True
-            return True
+
+    def list_(self) -> list[StudentEntity]:
+        try:
+            students = self._session.query(StudentEntity).all()
+        except SQLAlchemyError as e:
+            logger.error("Database error during student listing.")
+            self._session.rollback()
+            msg = "An error occurred while listing the students."
+            raise DatabaseError(msg) from e
+        return students
